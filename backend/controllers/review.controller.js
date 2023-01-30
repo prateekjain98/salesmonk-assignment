@@ -31,7 +31,8 @@ exports.addEditReview = async (req, res) => {
     if (!movie.averageRating) {
       movie.averageRating = result.rating;
     } else {
-      movie.averageRating = Number.parseFloat((movie.averageRating * reviews.length + result.rating) * 10) / (10 * (reviews.length + 1)).toFixed(1);
+      movie.averageRating =
+        Number.parseFloat((movie.averageRating * (reviews.length - 1) + result.rating) * 10) / (10 * (reviews.length - 1 + 1)).toFixed(1);
     }
     await movie.save();
     res.json({ result, movie });
