@@ -9,7 +9,7 @@ export const addEditMovie = async (data) => {
 }
 
 export const getAllMovies = async () => {
-    const url = `${BaseUrl}/movie`
+    const url = `${BaseUrl}/movie/all`
     const response = await axios.get(url)
     return response
 }

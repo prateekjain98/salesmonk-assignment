@@ -5,13 +5,13 @@ const { Movie } = require("../models/movie.model");
 //  @desc    Add movie if not present or edit if present in the database
 exports.addEditReview = async (req, res) => {
   try {
-    const { rating, reviewComments, movieId, name, _id } = req?.body;
+    const { rating, reviewComment, movieId, name, _id } = req?.body;
     const review = await Review.findOne({ _id });
     let result = null;
     if (review) {
       review.reviewerName = name;
       review.rating = Number(rating);
-      review.reviewComments = reviewComments;
+      review.reviewComment = reviewComment;
       review.movieId = movieId;
       await review.save();
       result = review;
@@ -19,7 +19,7 @@ exports.addEditReview = async (req, res) => {
       const newReview = new Review({
         reviewerName: name,
         rating,
-        reviewComments,
+        reviewComment,
         movieId,
       });
       await newReview.save();
@@ -49,7 +49,7 @@ exports.searchMovieReviews = async (req, res) => {
     const searchQuery = req.query.comment;
     let searchResults = null;
     if (searchQuery) {
-      searchResults = await Review.find({ reviewComments: { $regex: `^${searchQuery}`, $options: "i" } });
+      searchResults = await Review.find({ reviewComment: { $regex: `^${searchQuery}`, $options: "i" } });
     }
     res.json(searchResults);
   } catch (error) {
